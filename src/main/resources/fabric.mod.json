@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "effective",
+  "version": "${version}",
+  "name": "Effective",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/TestRender/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.arial.effective.Effective"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.12",
+    "fabric": "*",
+    "minecraft": "1.20.1"
+  }
+}
