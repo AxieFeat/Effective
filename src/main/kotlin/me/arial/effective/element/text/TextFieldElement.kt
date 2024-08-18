@@ -48,7 +48,7 @@ open class TextFieldElement : PlateElement() {
         }
 
     /**
-     * Cursor index location
+     * Cursor location
      */
     var cursor: Int = 0
 
