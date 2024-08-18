@@ -1,10 +1,10 @@
 package me.arial.effective.element
 
 import net.minecraft.client.gui.DrawContext
-import ru.airdead.hudrenderer.element.AbstractElement
-import ru.airdead.hudrenderer.element.Parent
-import ru.airdead.hudrenderer.element.rectangle.BaseRectangleElement
-import ru.airdead.hudrenderer.utility.Color
+import ru.airdead.hudrender.element.AbstractElement
+import ru.airdead.hudrender.element.Parent
+import ru.airdead.hudrender.element.rectangle.BaseRectangleElement
+import ru.airdead.hudrender.utility.Color
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -23,12 +23,12 @@ open class PlateElement : BaseRectangleElement(), Parent {
     /**
      * Color for element stroke
      */
-    var strokeColor: Color = Color(46, 112, 219)
+    open var strokeColor: Color = Color(46, 112, 219)
 
     /**
      * Stroke size
      */
-    var strokeSize: Int = 1
+    open var strokeSize: Int = 1
 
     /**
      * Main element color
@@ -38,7 +38,7 @@ open class PlateElement : BaseRectangleElement(), Parent {
     /**
      * Rounding for plate
      */
-    var rounding: Int = 4
+    open var rounding: Int = 4
 
     /**
      * The list of child elements.
@@ -285,7 +285,9 @@ open class PlateElement : BaseRectangleElement(), Parent {
         return mouseX.toInt() in x1 && mouseY.toInt() in y1 || mouseX.toInt() in x2 && mouseY.toInt() in y2
     }
 
-    override fun renderChildren(drawContext: DrawContext, tickDelta: Float) {}
+    override fun renderChildren(drawContext: DrawContext, tickDelta: Float) {
+        children.forEach { it.transformAndRender(drawContext, tickDelta) }
+    }
 
     override fun renderContent(drawContext: DrawContext, tickDelta: Float) {}
 }

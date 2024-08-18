@@ -1,43 +1,97 @@
 package me.arial.effective
 
+import me.arial.effective.element.board.board
+import me.arial.effective.element.button.button
 import me.arial.effective.element.plate
+import me.arial.effective.element.text.field
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.text.Text
-import ru.airdead.hudrenderer.HudEngine
-import ru.airdead.hudrenderer.HudManager
-import ru.airdead.hudrenderer.utility.CENTER
-import ru.airdead.hudrenderer.utility.Color
-import ru.airdead.hudrenderer.utility.menu
-import ru.airdead.hudrenderer.utility.x
+import ru.airdead.hudrender.HudEngine
+import ru.airdead.hudrender.HudManager
+import ru.airdead.hudrender.utility.*
 
 class Effective: ClientModInitializer {
     override fun onInitializeClient() {
         HudEngine.initialize()
 
         val plate = plate {
-            size = 120 x 50
+            size = 750 x 400
             align = CENTER
             origin = CENTER
-
-            onHover {
-                if (isHovered) {
-                    animate(1.5) {
-                        color = Color(40, 106, 212, 0.7)
-                        strokeColor = Color(31, 97, 207)
-                    }
-                } else {
-                    animate(1.5) {
-                        color = Color(66, 135, 245, 0.5)
-                        strokeColor = Color(46, 112, 219)
-                    }
-                }
-            }
         }
 
         val menu = menu {
-            +plate
+            //+plate
+//            +field {
+//                align = CENTER
+//                origin = CENTER
+//                rounding = 2
+//                size = 100 x 20
+//
+//                focused = true
+//
+//                preview = colorText {
+//                    origin = CENTER
+//                    align = CENTER
+//
+//                    text = "&7Поиск"
+//                }
+//            }
+            +button {
+                align = CENTER
+                origin = CENTER
+                rounding = 2
+                size = 100 x 20
+                text = "Пример кнопки"
+
+                onLeftClick {
+                    if (isPressed) {
+                        animate(2.0) {
+                            size = 110 x 25
+                        }
+                    } else {
+                        animate(2.0) {
+                            size = 100 x 20
+                        }
+                    }
+                }
+            }
+
+//            +rectangle {
+//                align = CENTER
+//                origin = CENTER
+//                size = 100 x 20
+//                color = Color.WHITE
+//
+//                onLeftClick {
+//                    if (isPressed) {
+//                        animate(2.0) {
+//                            size = 110 x 25
+//                        }
+//                    } else {
+//                        animate(2.0) {
+//                            size = 100 x 20
+//                        }
+//                    }
+//                }
+//            }
+        }
+
+        val board = board {
+            enabled = false
+            header = "Пример борда"
+            lineCount = 6
+
+            lines(
+                "Первая линия",
+                "Вторая линия",
+                "Третья линия",
+                "Четвертая линия",
+                "Пятая линия",
+                "Шестая линия"
+            )
         }
 
         CommandRegistrationCallback.EVENT.register { dispatcher, _, _ ->
@@ -45,11 +99,14 @@ class Effective: ClientModInitializer {
                 literal("effective")
                 .executes { context ->
                     menu.show()
+                    board.enabled = !board.enabled
                     context.source.sendFeedback({ Text.literal("Called /effective with no arguments") }, false)
                     1
                 })
         }
 
         HudManager.addElement(menu)
+
+        HudManager.addElement(board)
     }
 }
